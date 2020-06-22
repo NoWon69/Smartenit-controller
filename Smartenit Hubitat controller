@@ -62,16 +62,6 @@ metadata {
         fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0702", outClusters: "0019", model: "ZBMLC30", deviceJoinName: "Smartenit Metering Dual Load Controller"
         fingerprint profileId: "0104", inClusters: "0000,0003,0006,0702", outClusters: "0019", model: "ZBMLC30-1", deviceJoinName: "Smartenit Metering Dual Load Controller"
 	}
-// simulator metadata
-        simulator {
-            // status messages
-            status "on": "on/off: 1"
-            status "off": "on/off: 0"
-            // reply messages
-            reply "zcl on-off on": "on/off: 1"
-            reply "zcl on-off off": "on/off: 0"
-	}    
-}
 
 preferences {
     input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: false
