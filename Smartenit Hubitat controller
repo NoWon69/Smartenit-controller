@@ -73,6 +73,10 @@ metadata {
 	}    
 }
 
+preferences {
+    input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: false
+}
+
 def getFPoint(String FPointHex){
     return (Float)Long.parseLong(FPointHex, 16)
 }
@@ -83,11 +87,11 @@ def getFPoint(String FPointHex){
 def parse(String description) {
     def attrName = null
         def attrValue = null
-        log.debug "parse... description: ${description}" 
+        if (logEnable) log.debug "parse... description: ${description}" 
     def mapDescription = zigbee.parseDescriptionAsMap(description)
-	log.debug "parse... mapDescription: ${mapDescription}"
+	if (logEnable) log.debug "parse... mapDescription: ${mapDescription}"
     def event = zigbee.getEvent(description)
-    log.debug "parse... event: ${event}"  
+    if (logEnable) log.debug "parse... event: ${event}"  
     if(mapDescription.cluster == "0702")
     {
         if(mapDescription.attrId == "0400")
@@ -137,9 +141,9 @@ def parse(String description) {
         {
             attrName = "ModelId"
             attrValue = mapDescription.value.toString()
-            log.debug "ModelName attrValue: ${attrValue}"
+            if (logEnable) log.debug "ModelName attrValue: ${attrValue}"
             state.ModelName = mapDescription.value
-            log.debug "ModelName attr received: ${state.ModelName}"
+            if (logEnable) log.debug "ModelName attr received: ${state.ModelName}"
             if (state.ModelName == "5A424D4C4333302D31") 
             {
                 state.MeteringEP = 0x01
@@ -152,7 +156,7 @@ def parse(String description) {
     }
     else if(mapDescription.clusterInt == 8)
     {
-		log.debug "parsing level control..value: ${mapDescription.value}"
+		if (logEnable) log.debug "parsing level control..value: ${mapDescription.value}"
         if(mapDescription.value == "00") {
             attrValue = "off"
             sendEvent(name: "switch1", value: attrValue)
@@ -170,7 +174,7 @@ def parse(String description) {
     else
     {
     	if(description.contains("on/off")) {
-        	log.debug "must be a report, but don't know which Endpoint"
+        	if (logEnable) log.debug "must be a report, but don't know which Endpoint"
         }else {
         	log.warn "Did not parse message: $description"
         }
@@ -225,7 +229,7 @@ def refresh() {
 }
 
 def configure() {
-    log.debug "Configuring Reporting and Bindings." 
+    if (logEnable) log.debug "Configuring Reporting and Bindings." 
     runEvery15Minutes(refresh)
     state.ModelName = ""
     state.MeteringEP = 0x02
