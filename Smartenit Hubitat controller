@@ -194,7 +194,7 @@ def relay2_on(){
 def relay2_off(){
     log.info "Turning Off Relay2"
 //    zigbee.command(OnOffCluster, OffCommand, additionalParams=[destEndpoint:Endpoint2])
-    def cmds = [
+    def cmd = [
     "cmd 0x${device.deviceNetworkId} ${Endpoint2} ${OnOffCluster} ${OffCommand} {}"
     ]
     return cmd
