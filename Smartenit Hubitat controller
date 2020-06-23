@@ -146,7 +146,7 @@ def parse(String description) {
     }
     else if(mapDescription.clusterInt == 8)
     {
-		if (logEnable) log.debug "parsing level control..value: ${mapDescription.value}"
+	if (logEnable) log.debug "parsing level control..value: ${mapDescription.value}"
         if(mapDescription.value == "00") {
             attrValue = "off"
             sendEvent(name: "switch1", value: attrValue)
@@ -184,18 +184,20 @@ def relay1_on() {
 
 def relay2_on(){
     log.info "Turning On Relay2"
-    zigbee.command(OnOffCluster, OnCommand, additionalParams=[destEndpoint:Endpoint2])
-    def cmds = []
-    cmds << "cmd 0x${device.deviceNetworkId} ${Endpoint2} ${OnOffCluster} ${OnCommand} {}"
-	cmds
+//    zigbee.command(OnOffCluster, OnCommand, additionalParams=[destEndpoint:Endpoint2])
+    def cmd = [
+    "cmd 0x${device.deviceNetworkId} ${Endpoint2} ${OnOffCluster} ${OnCommand} {}"
+    ]
+    return cmd
 }
 
 def relay2_off(){
     log.info "Turning Off Relay2"
-    zigbee.command(OnOffCluster, OffCommand, additionalParams=[destEndpoint:Endpoint2])
-    def cmds = []
-    cmds << "cmd 0x${device.deviceNetworkId} ${Endpoint2} ${OnOffCluster} ${OffCommand} {}"
-	cmds
+//    zigbee.command(OnOffCluster, OffCommand, additionalParams=[destEndpoint:Endpoint2])
+    def cmds = [
+    "cmd 0x${device.deviceNetworkId} ${Endpoint2} ${OnOffCluster} ${OffCommand} {}"
+    ]
+    return cmd
 }
 
 def refresh() {
